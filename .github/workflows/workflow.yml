@@ -18,7 +18,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm test
-      - uses: jakejarvis/s3-sync-action@master
+      - uses: firas-hzi/mini-project-frontend@main
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
