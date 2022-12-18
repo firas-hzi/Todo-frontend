@@ -53,10 +53,9 @@ export const personSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.clear();
-            state.loginError = false;
+            localStorage.removeItem("user");
             state.isLoggedIn=false;
-            state.loginError=false;
+            state.isRegistered=true;
             state.currentUser=person;
             return state;
         },

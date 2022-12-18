@@ -2,7 +2,7 @@ import { FaPlusCircle,FaSave  } from 'react-icons/fa';
 import { FiLogOut  } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createItem, getItems } from '../../Slices/ItemSlice';
 import { createList, getLists } from '../../Slices/ListSlice';
 import { DispatchType, RootState } from '../../Store';
@@ -11,9 +11,10 @@ import { Lists } from '../../Types/Lists';
 import { ItemPage } from '../Item/item';
 import { ListPage } from '../List/List';
 import './listItem.css';
+import { logout } from '../../Slices/PersonSlice';
 
 export const ItemListPage:React.FC= ()=>{
-    
+    let navigate= useNavigate();
     const userState = useSelector((state:RootState) => state.auth);
     const ListState = useSelector((state:RootState) => state.list);
     const ItemState = useSelector((state:RootState) => state.item);
@@ -23,6 +24,7 @@ export const ItemListPage:React.FC= ()=>{
         description:'',
         person: userState.currentUser
     });
+    
     const handleListChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setNewList({
             ...newList,
@@ -82,6 +84,13 @@ export const ItemListPage:React.FC= ()=>{
        else setShowList(true);
     }
 
+    const handleLogout = (e: { preventDefault: () => void; })=>{
+        e.preventDefault();
+        console.log("handle logout");
+      dispatch(logout());
+        navigate("/login");
+    }
+
     useEffect(()=>{
         dispatch(getLists(userState.currentUser.personId!));
         dispatch(getItems(ListState.listId));
@@ -90,7 +99,7 @@ export const ItemListPage:React.FC= ()=>{
 
     return (
         <>
-         <Link className="LinkLogout" to="/login"><FiLogOut className='logout'/></Link>
+         <FiLogOut onClick={handleLogout} className='logout'/>
          <h1 className='ListItemHeader'>Grocery List Tracking</h1>
         <div className= "ListRootContainer">
            
