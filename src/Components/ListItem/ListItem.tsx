@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { createItem, getItems } from '../../Slices/ItemSlice';
 import { createList, getLists } from '../../Slices/ListSlice';
 import { DispatchType, RootState } from '../../Store';
-import { Item } from '../../Types/Item';
+import { CreateItem, Item } from '../../Types/Item';
 import { Lists } from '../../Types/Lists';
 import { ItemPage } from '../Item/item';
 import { ListPage } from '../List/List';
@@ -32,11 +32,11 @@ export const ItemListPage:React.FC= ()=>{
         });
     }
 
-    const [newItem, setNewItem] = useState<Item>({
+    const [newItem, setNewItem] = useState<CreateItem>({
         name: '',
         description:'',
         price:0,
-        list: ListState.lists.find(x => x.listId === ListState.listId)!
+        listId: ListState.listId
     });
     const handleItemChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setNewItem({
@@ -60,19 +60,11 @@ export const ItemListPage:React.FC= ()=>{
 
     const addNewItem=(e: { preventDefault: () => void; })=>{
         e.preventDefault();
-        setShowItem(false);
-        console.log(" dfdddsadasdasdd "+ListState.listId);
-        setNewItem({
-            ...newItem,
-            list: ListState.lists.find(x => x.listId === ListState.listId)!
-        });
-        if(newItem.list)
-        {
+       
         dispatch(createItem(newItem)).then((data)=>{
            dispatch(getItems(ListState.listId));
         });
-        
-    }else console.log("new item . list "+newItem.list);
+        setShowItem(false);
     }
 
     const showItemContainer= ()=>{
@@ -94,8 +86,12 @@ export const ItemListPage:React.FC= ()=>{
     useEffect(()=>{
         dispatch(getLists(userState.currentUser.personId!));
         dispatch(getItems(ListState.listId));
+        setNewItem({
+            ...newItem,
+            listId: ListState.listId
+        });
       
-    }, [ItemState.items.length, ListState.lists.length])
+    }, [ItemState.items.length, ListState.lists.length, ListState.listId])
 
     return (
         <>

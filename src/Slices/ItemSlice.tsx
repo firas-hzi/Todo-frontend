@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Item } from "../Types/Item";
+import { CreateItem, Item } from "../Types/Item";
 import { remoteUrl } from "../Types/URL";
 
 
@@ -15,7 +15,7 @@ const initialState: ItemSliceState = {
 
 export const createItem = createAsyncThunk(
     'item/create',
-    async(item:Item, thunkAPI) => {
+    async(item:CreateItem, thunkAPI) => {
         try{
             
             const res = await axios.post(`${remoteUrl}/items/`, item);

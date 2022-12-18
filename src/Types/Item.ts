@@ -5,5 +5,13 @@ export interface Item{
     name:string;
     description:string;
     price:number;
-    list: Lists;
+    list?: Lists;
+}
+
+
+export interface CreateItem{
+    name:string;
+    description:string;
+    price:number;
+    listId: number;
 }
