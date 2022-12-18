@@ -8,6 +8,7 @@ import './list.css';
 export const ListPage:React.FC<Lists> =({listId, name, description,createdDate }) => {
 
     const dispatch:DispatchType = useDispatch();
+
  const getAllItems= (e: { preventDefault: () => void; })=>{
      e.preventDefault();
      console.log("list id inside list.tsx is "+listId);
@@ -20,10 +21,10 @@ export const ListPage:React.FC<Lists> =({listId, name, description,createdDate }
     return(
         <>
         <div className="ListContainerRoot" onClick={getAllItems}>
-        <p>{listId}</p>
-        <p> Name: {name}</p>
-        <p> Description: {description}</p>
-        <p> Date: { new Date(createdDate!).toUTCString()}</p>
+        <p> <strong>ID:</strong> {listId}</p>
+        <p> <strong>Name:</strong> {name}</p>
+        <p> <strong>Desc:</strong> {description}</p>
+        <p> <strong>Date:</strong> { new Date(createdDate!).toUTCString()}</p>
         </div>
 
         </>

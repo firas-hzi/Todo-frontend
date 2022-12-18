@@ -2,22 +2,20 @@
 display: flex;
 flex-direction: row;
 width: 100%;
-
-margin: 20px 0px;
-padding: 2% 0px;
+margin: 30px 20px;
 }
 
 .ListLeftContainer{
-    border:solid;
+border:solid;
 display: flex;
 flex-direction: column;
-width:40%;
+width:45%;
 padding: 10px;
 
 }
 
 .ListCenterContainer{
-    width:5%;
+    width:2%;
 }
 
 .ListRightContainer{
@@ -25,7 +23,8 @@ padding: 10px;
     border: solid;
 display: flex;
 flex-direction: column;
-width: 30%;
+align-content: center;
+width: 45%;
 }
 
 .ListCreateContainer{
@@ -34,4 +33,20 @@ flex-direction: column;
 margin-top: 10px;
 gap: 15px;
 
+}
+
+.ListItemHeader{
+    width:100%;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.logout{
+    margin: auto;
+    display: block;
+    padding-top: 10px;
+}
+.LinkLogout{
+    width: 100%;
+   
 }

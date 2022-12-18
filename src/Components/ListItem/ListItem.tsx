@@ -1,15 +1,17 @@
-
+import { FaPlusCircle,FaSave  } from 'react-icons/fa';
+import { FiLogOut  } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createItem } from '../../Slices/ItemSlice';
+import { createItem, getItems } from '../../Slices/ItemSlice';
 import { createList, getLists } from '../../Slices/ListSlice';
 import { DispatchType, RootState } from '../../Store';
 import { Item } from '../../Types/Item';
 import { Lists } from '../../Types/Lists';
 import { ItemPage } from '../Item/item';
 import { ListPage } from '../List/List';
-import './listItem.css'
+import './listItem.css';
+
 export const ItemListPage:React.FC= ()=>{
     
     const userState = useSelector((state:RootState) => state.auth);
@@ -62,10 +64,13 @@ export const ItemListPage:React.FC= ()=>{
             ...newItem,
             list: ListState.lists.find(x => x.listId === ListState.listId)!
         });
+        if(newItem.list)
+        {
         dispatch(createItem(newItem)).then((data)=>{
-           // console.log("data payload is "+data.payload);
-           // dispatch(getItems(data.payload[0].listId));
+           dispatch(getItems(ListState.listId));
         });
+        
+    }else console.log("new item . list "+newItem.list);
     }
 
     const showItemContainer= ()=>{
@@ -78,17 +83,17 @@ export const ItemListPage:React.FC= ()=>{
     }
 
     useEffect(()=>{
-        dispatch(getLists(userState.currentUser.personId!)).then((data)=>{
-           // console.log("data payload is  74"+data.payload[0].listId);
-           // dispatch(getItems(data.payload[0].listId));
-        });
+        dispatch(getLists(userState.currentUser.personId!));
+        dispatch(getItems(ListState.listId));
       
-    }, [])
+    }, [ItemState.items.length, ListState.lists.length])
 
     return (
         <>
+         <Link className="LinkLogout" to="/login"><FiLogOut className='logout'/></Link>
+         <h1 className='ListItemHeader'>Grocery List Tracking</h1>
         <div className= "ListRootContainer">
-            <Link to="/login">Logout</Link>
+           
         <div className= "ListLeftContainer">
             <h2> Lists</h2>
  
@@ -99,27 +104,28 @@ export const ItemListPage:React.FC= ()=>{
             })
        }
                  
-            <button onClick={showListContainer}>New List</button>
+            <FaPlusCircle onClick={showListContainer}></FaPlusCircle>
            { showList?
              <div className='ListCreateContainer'>
               
                <input name="name" type="text" placeholder='list name' onChange={handleListChange}></input>
               
                <input name="description" type="text" placeholder='list description' onChange={handleListChange}></input>
-               <button onClick={addNewList}>Add</button>
+               <FaSave onClick={addNewList}></FaSave>
              </div>
              : <></>}
         </div>
         <div className='ListCenterContainer'></div>
         <div className="ListRightContainer">
        <h2>Items</h2>
+       <p><strong>Current List Id is: </strong> {ListState.listId}</p>
        {
              ItemState.items.map((item:Item) => {
                 return <ItemPage key={item.itemId} itemId={item.itemId} name={item.name}
                 description={item.description} price={item.price} list={ListState.lists.find(x => x.listId === ListState.listId)!}             />
             })
        }
-       <button onClick={showItemContainer}>New List</button>
+       <FaPlusCircle onClick={showItemContainer}></FaPlusCircle>
            { showItem?
              <div className='ListCreateContainer'>
               
@@ -128,7 +134,8 @@ export const ItemListPage:React.FC= ()=>{
                <input name= "description" type="text" placeholder='item description' onChange={handleItemChange}></input>
              
                <input  name= "price" type="number" placeholder='item price' onChange={handleItemChange}></input>
-               <button onClick={addNewItem}>Add</button>
+               
+               <FaSave onClick={addNewItem} ></FaSave>
              </div>
              : <></>}
         </div>
