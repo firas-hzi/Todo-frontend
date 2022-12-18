@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Lists } from "../Types/Lists";
+import { remoteUrl } from "../Types/URL";
 
 
 interface ListSliceState {
@@ -23,7 +24,7 @@ export const createList = createAsyncThunk(
     async(list:Lists, thunkAPI) => {
         try{
             
-            const res = await axios.post("http://localhost:8500/lists/", list);
+            const res = await axios.post(`${remoteUrl}/lists/`, list);
             return res.data;
         } catch(e) {
             return thunkAPI.rejectWithValue('Invalid List');
@@ -34,7 +35,7 @@ export const getLists = createAsyncThunk(
     'list/getListsByPerson',
     async(personId:number,thunkAPI) => {
         try{    
-            const res = await axios.get(`http://localhost:8500/lists/${personId}`);
+            const res = await axios.get(`${remoteUrl}/lists/${personId}`);
            return res.data;
          
         } catch(e) {

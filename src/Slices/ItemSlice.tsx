@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Item } from "../Types/Item";
+import { remoteUrl } from "../Types/URL";
 
 
 interface ItemSliceState {
@@ -17,7 +18,7 @@ export const createItem = createAsyncThunk(
     async(item:Item, thunkAPI) => {
         try{
             
-            const res = await axios.post("http://localhost:8500/items/", item);
+            const res = await axios.post(`${remoteUrl}/items/`, item);
             return res.data;
         } catch(e) {
             return thunkAPI.rejectWithValue('Invalid Item');
@@ -28,7 +29,7 @@ export const getItems = createAsyncThunk(
     'item/getItemsByList',
     async(listId:number,thunkAPI) => {
         try{    
-            const res = await axios.get(`http://localhost:8500/items/${listId}`);
+            const res = await axios.get(`${remoteUrl}/items/${listId}`);
            return res.data;
          
         } catch(e) {
@@ -41,7 +42,7 @@ export const removeItem = createAsyncThunk(
     'item/removeItem',
     async(itemId:number,thunkAPI) => {
         try{    
-            const res = await axios.delete(`http://localhost:8500/items/${itemId}`);
+            const res = await axios.delete(`${remoteUrl}/items/${itemId}`);
            return res.data;
          
         } catch(e) {

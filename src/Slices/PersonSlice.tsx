@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import { Person} from "../Types/Person";
+import {remoteUrl} from "../Types/URL";
 
 export interface AuthState{
     isLoggedIn:boolean,
@@ -26,7 +27,7 @@ export const register = createAsyncThunk(
     async(user:Person, thunkAPI) => {
         try{
             
-            const res = await axios.post("http://localhost:8500/persons/register", user);
+            const res = await axios.post(`${remoteUrl}/persons/register`, user);
             return res.data;
         } catch(e) {
             return thunkAPI.rejectWithValue('Email Already Exist');
@@ -37,7 +38,7 @@ export const login = createAsyncThunk(
     'user/login',
     async(user:Person, thunkAPI) => {
         try{    
-            const res = await axios.post("http://localhost:8500/persons/login", user);
+            const res = await axios.post(`${remoteUrl}/persons/login`, user);
             console.log("login slice res data "+res.data);
            return {user: res.data};
          
