@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createItem, getItems } from '../../Slices/ItemSlice';
+import { createItem } from '../../Slices/ItemSlice';
 import { createList, getLists } from '../../Slices/ListSlice';
 import { DispatchType, RootState } from '../../Store';
 import { Item } from '../../Types/Item';
@@ -16,7 +16,6 @@ export const ItemListPage:React.FC= ()=>{
     const ListState = useSelector((state:RootState) => state.list);
     const ItemState = useSelector((state:RootState) => state.item);
     const dispatch:DispatchType = useDispatch();
-    const [listId, setListId] = useState(0);
     const [newList, setNewList] = useState<Lists>({
         name: '',
         description:'',
