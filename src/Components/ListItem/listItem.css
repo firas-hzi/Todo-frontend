@@ -1,0 +1,37 @@
+.ListRootContainer{
+display: flex;
+flex-direction: row;
+width: 100%;
+
+margin: 20px 0px;
+padding: 2% 0px;
+}
+
+.ListLeftContainer{
+    border:solid;
+display: flex;
+flex-direction: column;
+width:40%;
+padding: 10px;
+
+}
+
+.ListCenterContainer{
+    width:5%;
+}
+
+.ListRightContainer{
+    padding: 10px;
+    border: solid;
+display: flex;
+flex-direction: column;
+width: 30%;
+}
+
+.ListCreateContainer{
+display: flex;
+flex-direction: column;
+margin-top: 10px;
+gap: 15px;
+
+}
