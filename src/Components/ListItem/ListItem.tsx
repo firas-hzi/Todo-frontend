@@ -22,7 +22,7 @@ export const ItemListPage:React.FC= ()=>{
     const [newList, setNewList] = useState<Lists>({
         name: '',
         description:'',
-        person: userState.currentUser
+        person: JSON.parse(localStorage.getItem('user')||'{}')
     });
     
     const handleListChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +78,6 @@ export const ItemListPage:React.FC= ()=>{
 
     const handleLogout = (e: { preventDefault: () => void; })=>{
         e.preventDefault();
-        console.log("handle logout");
       dispatch(logout());
         navigate("/login");
     }

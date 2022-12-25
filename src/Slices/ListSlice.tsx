@@ -3,7 +3,6 @@ import axios from "axios";
 import { Lists } from "../Types/Lists";
 import { remoteUrl } from "../Types/URL";
 
-
 interface ListSliceState {
     lists: Lists[],
     listId:number
@@ -23,7 +22,8 @@ export const createList = createAsyncThunk(
     'list/create',
     async(list:Lists, thunkAPI) => {
         try{
-            
+            console.log("aaaaaaa "+JSON.stringify(list));
+            console.log('token  '+localStorage.getItem('token'))
             const res = await axios.post(`${remoteUrl}/lists/`, list);
             return res.data;
         } catch(e) {

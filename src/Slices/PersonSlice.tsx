@@ -54,6 +54,7 @@ export const personSlice = createSlice({
     reducers: {
         logout: (state) => {
             localStorage.removeItem("user");
+            localStorage.removeItem("token");
             state.isLoggedIn=false;
             state.isRegistered=true;
             state.currentUser=person;

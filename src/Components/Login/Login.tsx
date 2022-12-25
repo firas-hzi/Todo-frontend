@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../Slices/PersonSlice';
 import { DispatchType, RootState } from '../../Store';
 import { Person } from '../../Types/Person';
+import AuthenticationService from '../AuthenticationService';
 import './login.css'
 export const LoginPage:React.FC= ()=>{
     let navigate = useNavigate();
@@ -31,9 +32,18 @@ export const LoginPage:React.FC= ()=>{
            email: email ,
            password: password
            }   
-        dispatch(login(user)).then(()=>{
-            clearAllInputs();
-        });
+           AuthenticationService
+           .executeJwtAuthenticationService(user.email, user.password)
+           .then((response) => {
+            console.log("JWT response token "+response.data.token)
+            
+            AuthenticationService.setupAxiosInterceptors(AuthenticationService.createJWTToken(response.data.token))
+            dispatch(login(user)).then(()=>{
+                clearAllInputs();
+            });
+           }).catch(()=>{
+
+           })     
   };
     
   const  clearAllInputs = ()=>{
