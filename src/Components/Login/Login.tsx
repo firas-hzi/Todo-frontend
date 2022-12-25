@@ -37,7 +37,7 @@ export const LoginPage:React.FC= ()=>{
            .then((response) => {
             console.log("JWT response token "+response.data.token)
             
-            AuthenticationService.setupAxiosInterceptors(AuthenticationService.createJWTToken(response.data.token))
+          AuthenticationService.createJWTToken(response.data.token)
             dispatch(login(user)).then(()=>{
                 clearAllInputs();
             });
@@ -58,15 +58,15 @@ for (var ii=0; ii < elements.length; ii++) {
     return(
         <div className="login">
         
-            <form id="auth">
+            <form id="auth" onSubmit={handleLogin}>
             <h1 className="h1Auth">Login</h1>
             {userState.loginError ? <h3>Username or password incorrect</h3> : <></>}
             <label>Email</label>
-            <input id= "email" name="email" placeholder="Your email" onChange={handleChange}/>
+            <input id= "email" name="email" placeholder="Your email" onChange={handleChange} required/>
             <label>Password</label>
-            <input type="password" id="password" name="password" placeholder="Your password" onChange={handleChange}/>
+            <input type="password" id="password" name="password" placeholder="Your password" onChange={handleChange} required/>
             <div className='loginFormSubmit'>
-            <button id="login" className="authentication" onClick={handleLogin}>Login</button>
+            <button id="login" className="authentication" >Login</button>
             <Link to="/register" className="registerLinkFromLogin">register</Link></div>
             </form>
           

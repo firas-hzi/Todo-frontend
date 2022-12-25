@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import request from "../ApiSetup";
 import { CreateItem, Item } from "../Types/Item";
-import { remoteUrl } from "../Types/URL";
 
 
 interface ItemSliceState {
@@ -18,7 +17,7 @@ export const createItem = createAsyncThunk(
     async(item:CreateItem, thunkAPI) => {
         try{
             
-            const res = await axios.post(`${remoteUrl}/items/`, item);
+            const res = await request.post(`/items/`, item);
             return res.data;
         } catch(e) {
             return thunkAPI.rejectWithValue('Invalid Item');
@@ -29,7 +28,7 @@ export const getItems = createAsyncThunk(
     'item/getItemsByList',
     async(listId:number,thunkAPI) => {
         try{    
-            const res = await axios.get(`${remoteUrl}/items/${listId}`);
+            const res = await request.get(`/items/${listId}`);
            return res.data;
          
         } catch(e) {
@@ -42,7 +41,7 @@ export const removeItem = createAsyncThunk(
     'item/removeItem',
     async(itemId:number,thunkAPI) => {
         try{    
-            const res = await axios.delete(`${remoteUrl}/items/${itemId}`);
+            const res = await request.delete(`/items/${itemId}`);
            return res.data;
          
         } catch(e) {
@@ -61,9 +60,9 @@ export const ItemSlice = createSlice({
             return state;
         });
         builder.addCase(getItems.fulfilled, (state,action) => {
-            localStorage.setItem('items', JSON.stringify(action.payload));
+          
             state.items= action.payload;
-            console.log("items are "+JSON.stringify(localStorage.getItem('items')));
+           
             return state
         });
 

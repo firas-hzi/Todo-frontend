@@ -22,7 +22,7 @@ export const ItemListPage:React.FC= ()=>{
     const [newList, setNewList] = useState<Lists>({
         name: '',
         description:'',
-        person: JSON.parse(localStorage.getItem('user')||'{}')
+        person: userState.currentUser//JSON.parse(localStorage.getItem('user')||'{}')
     });
     
     const handleListChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -83,8 +83,8 @@ export const ItemListPage:React.FC= ()=>{
     }
 
     useEffect(()=>{
-        dispatch(getLists(userState.currentUser.personId!));
-        dispatch(getItems(ListState.listId));
+       dispatch(getLists(userState.currentUser.personId!));
+       dispatch(getItems(ListState.listId));
         setNewItem({
             ...newItem,
             listId: ListState.listId
@@ -126,7 +126,7 @@ export const ItemListPage:React.FC= ()=>{
        {
              ItemState.items.map((item:Item) => {
                 return <ItemPage key={item.itemId} itemId={item.itemId} name={item.name}
-                description={item.description} price={item.price} list={ListState.lists.find(x => x.listId === ListState.listId)!}             />
+                description={item.description} price={item.price} list={ListState.lists.find((x: { listId: any; }) => x.listId === ListState.listId)!}             />
             })
        }
        <FaPlusCircle onClick={showItemContainer}></FaPlusCircle>

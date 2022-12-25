@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import request from "../ApiSetup";
 import { Person} from "../Types/Person";
 import {remoteUrl} from "../Types/URL";
 
@@ -38,7 +39,7 @@ export const login = createAsyncThunk(
     'user/login',
     async(user:Person, thunkAPI) => {
         try{    
-            const res = await axios.post(`${remoteUrl}/persons/login`, user);
+            const res = await request.post(`/persons/login`, user);
             console.log("login slice res data "+res.data);
            return {user: res.data};
          
@@ -53,8 +54,7 @@ export const personSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
             state.isLoggedIn=false;
             state.isRegistered=true;
             state.currentUser=person;
@@ -66,8 +66,6 @@ export const personSlice = createSlice({
             state.isLoggedIn = true;
             state.loginError=false;
             state.currentUser= action.payload.user;
-            localStorage.setItem('user', JSON.stringify(action.payload.user));
-            console.log("useruseruser "+JSON.stringify(localStorage.getItem('user')));
             return state;
         });
         builder.addCase(register.fulfilled, (state,action) => {

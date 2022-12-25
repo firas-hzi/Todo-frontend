@@ -13,21 +13,8 @@ class AuthenticationService {
     }
 
     createJWTToken(token:string) {
-        localStorage.setItem('token', 'Bearer ' + token);
+        sessionStorage.setItem('token', 'Bearer ' + token);
         return 'Bearer ' + token
-    }
-
-    setupAxiosInterceptors(token:string) {
-
-        axios.interceptors.request.use(
-            (config) => {
-             
-                console.log(localStorage.getItem('token'));
-                    config.headers!.authorization = localStorage.getItem('token');
-            
-                return config
-            }
-        )
     }
 
     
